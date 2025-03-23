@@ -1,0 +1,221 @@
+.nav-img{
+    width: 2.7rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+}
+input {
+    outline: none;
+}
+
+.focused{
+    outline: 3px solid #4CAF50;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.nav-link{
+    color: rgb(192, 190, 190);
+}
+
+.nav-link:hover{
+    color: rgb(192, 190, 190);
+}
+
+.active{
+    color: white;
+}
+
+.home{
+    background-image: url(./assets/img/hero.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 91dvh;
+}
+
+button{
+    width: 15rem;
+    height: 2.5rem;
+}
+
+.search-bar{
+    width: 50rem;
+    height: 3rem;
+
+}
+
+.search-bar input{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.search-icon{
+    width: 3.2rem;
+    height: 3.5rem;
+    cursor: pointer;
+}
+
+.nav-search-bar{
+    width: 30rem;
+    height: 2.5rem;
+}
+
+.nav-search-bar input{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.login{
+    width: 30rem;
+    height: 30rem;
+}
+
+.profile{
+    width: 30rem;
+    height: 30rem;
+}
+
+.register{
+    width: 30rem;
+    height: 35rem;
+}
+
+.w-90{
+    width: 90%;
+}
+
+.show-btn{
+    width: 2.5rem;
+    height: 2.8rem;
+    cursor: pointer;
+
+}
+
+.name{
+    height: 3rem;
+    width: 12rem;
+    margin: 0;
+    padding: 0;
+}
+
+.booklist{
+    background-color: #dee2fc;
+}
+
+.book-img{
+    width: 100%;
+    height: 14rem;
+}
+
+.card {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.alert{
+    width: 50%;
+    height: 40%;
+    background-color: aliceblue;
+}
+
+.card:hover{
+    background-color: #77cc79;
+    color: white;
+    transform: scale(1.05);
+}
+
+.card-body{
+    font-size: small;
+}
+
+.booklist-nav{
+    background-color: #4CAF50;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 5px;
+  }
+  
+  .page-item {
+    list-style: none;
+  }
+  
+  .page-link {
+    width: 60px; /* Adjust width */
+    height: 50px; /* Adjust height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4CAF50;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+  }
+  
+  .page-link:hover {
+    background-color: #88e288e8;
+    color: white;
+  }
+  
+  .active .page-link {
+    background-color: #45dd52;
+    color: white;
+    border-color: #11ec23;
+  }
+
+  .close-btn{
+    height: 2rem;
+    width: 2rem;
+  }
+
+
+@media only screen and (max-width:600px){
+    .nav-img{
+        width: 2rem;
+        height: 1.8rem;
+    }
+    
+    .search-bar{
+        width: 20rem;
+        height: 3rem;
+    
+    }
+
+    .nav-search-bar{
+        width: 25rem;
+        height: 2rem;
+    
+    }
+    
+    .login{
+        width: 20rem;
+        height: 28rem;
+    }
+    
+    .register{
+        width: 20rem;
+        height: 30rem;
+    }
+
+    .show-btn{
+        width: 1.6rem;
+        height: 2.3rem;
+    }
+    
+    .name{
+        height: 2rem;
+        width: 8rem;
+    }
+
+    .page-link {
+        width: 40px;
+        height: 30px;
+      }
+
+}
