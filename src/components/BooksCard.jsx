@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import BookCover from '../assets/img/bookcover.jpg'
 import { AiFillStar } from "react-icons/ai"; 
 import { BooksContext } from "../context/BooksContext";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import SkeletonLoader from './SkeletonLoader';
 
 
 export const StarRating = ({ rating }) => {
@@ -44,27 +43,16 @@ function BooksCard({books}) {
     <div className="row container">
       {loading
         ? Array(6).fill(0).map((_, index) => (
-            <div key={index} className="col-md-4 mb-5 mt-5">
-              <div className="card p-3 d-flex justify-content-evenly align-items-center" style={{ width: "20rem", height: "34rem" }}>
-                <Skeleton height={200} width={180} /> {/* Image Placeholder */}
-                <div className="card-body text-center">
-                  <h5 className="card-title"><Skeleton width={120} /></h5>
-                  <div className="card-text"><Skeleton width={180} /></div>
-                  <div className="card-text d-flex flex-row align-items-center justify-content-between">
-                    <Skeleton width={50} height={20} /> {/* Star Placeholder */}
-                    <Skeleton width={60} height={20} /> {/* Price Placeholder */}
-                  </div>
-                </div>
-                <Skeleton width={120} height={40} /> {/* Button Placeholder */}
-              </div>
+            <div key={index} className="col-md-3 mb-5 mt-5">
+              <SkeletonLoader />
             </div>
           ))
         : books?.items?.map((book) => {
           const bookId = book.id;
           const isInCart = cartBookIds.has(bookId);
             return (
-              <div key={book.id} className="col-md-4 mb-5 mt-5">
-                <div className="card p-3 d-flex justify-content-evenly align-items-center" style={{ width: "20rem", height: "34rem" }}>
+              <div key={book.id} className="col-md-3  mb-5 mt-5">
+                <div className="card p-3 d-flex justify-content-evenly align-items-center" style={{ height: "32rem" }}>
                   <img
                     src={book.volumeInfo?.imageLinks?.thumbnail || BookCover}
                     className="card-img-top rounded book-img"
@@ -83,7 +71,7 @@ function BooksCard({books}) {
                     </div>
                   </div>
                   <button
-                    className={`btn ${isInCart ? "btn-danger" : "btn-success"}`}
+                    className={`btn ${isInCart ? "btn-danger w-75" : "btn-success w-75"}`}
                     onClick={() => (isInCart ? removeFromCart(bookId) : addToCart(book))}
                   >
                     {isInCart ? "Remove Cart" : "Add Cart"}

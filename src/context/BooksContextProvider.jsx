@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { BooksContext } from "./BooksContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const BooksContextProvider = ({ children }) => {
@@ -17,8 +18,73 @@ const BooksContextProvider = ({ children }) => {
   const [quantities, setQuantities] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [badge, setBadge] = useState(0);
-  const [user, setUser] = useState()
-  const [email, setEmail] = useState("")
+  const [addOrders, setAddOrders] = useState([]);
+  const [myOrders, setMyOrders] = useState([]);
+  
+  const [userDetails, setUserDetails] = useState(() => {
+    const storedDetails = localStorage.getItem("userDetails");
+    return storedDetails ? JSON.parse(storedDetails) : {};
+  });
+
+  const navigate = useNavigate();
+
+  console.log("Orders in Context:", addOrders);
+
+  // Function to Fetch User Details
+  const fetchUserDetails = async () => {
+    if (!isLogin) return;
+
+    try {
+      const response = await axios.get(`${API_BASE_URL}/userdetail/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      setUserDetails(response.data.userDetail);
+      localStorage.setItem("userDetails", JSON.stringify(response.data.userDetail));
+
+      
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  // Function to Update User Details
+  const updateUserDetails = async (updatedData) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/userdetail/add`,
+        updatedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Inside updateUserDetails
+      setUserDetails(response.data);
+      localStorage.setItem("userDetails", JSON.stringify(response.data));
+      fetchUserDetails(); 
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
+  };
+
+  // Call fetchUserDetails when user logs in
+  useEffect(() => {
+    if (isLogin) {
+      fetchUserDetails();
+    }
+  }, [isLogin]);
+
+  useEffect(() => {
+      fetchUserDetails();
+  }, [cart]);
+
 
   // Function to Fetch Books
   const fetchBooks = async () => {
@@ -100,9 +166,10 @@ const BooksContextProvider = ({ children }) => {
 
       const { token, user,email } = response.data;
       localStorage.setItem("token", token);
-      setUser(user);
-      setEmail(email)
+      localStorage.setItem("user", user);
+      localStorage.setItem("email", email);
       setIsLogin(true);
+      fetchUserDetails();
       setTokenExpiry();
     } catch (error) {
       console.error("Login failed:", error);
@@ -111,11 +178,14 @@ const BooksContextProvider = ({ children }) => {
   };
 
   const setTokenExpiry = () => {
-    const expiryTime = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const expiryTime = 1 * 30 * 60 * 1000; 
     setTimeout(() => {
       localStorage.removeItem("token");
-      setIsLogin(false); // Optional: Update login state
-      console.log("Token has been removed after 2 hours.");
+      localStorage.removeItem("userDetails");
+      localStorage.removeItem("user");
+      localStorage.removeItem("email");
+      setIsLogin(false);
+      navigate("/login");
     }, expiryTime);
   }
 
@@ -137,8 +207,12 @@ const BooksContextProvider = ({ children }) => {
   // Logout
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userDetails");
+    localStorage.removeItem("user");
+    localStorage.removeItem("email");
     setIsLogin(false);
     setCart([]);
+    setUserDetails({});
   };
 
   // Add to Cart API
@@ -250,6 +324,114 @@ const BooksContextProvider = ({ children }) => {
     }
   };
 
+    // Clear Cart Data API
+    const clearCart = async (bookId) => {
+      try {
+        const response = await axios.delete(
+          `${API_BASE_URL}/cart/clear`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        fetchCart()
+  
+      } catch (error) {
+        console.error("Error removing book from cart:", error);
+      }
+    };
+
+    const placeOrderAPI = async (orderDetails) => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          `${API_BASE_URL}/orders/place`,
+          {
+            products: orderDetails.items.map(item => ({
+              productId: item._id || item.bookId,
+              productName: item.title,
+              productImage: item.thumbnail,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+            totalAmount: orderDetails.totalAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAddOrders(response.data.order);
+      } catch (error) {
+        console.error("❌ Error placing order:", error.response?.data || error.message);
+      }
+    };
+
+     // ✅ 2. Get Orders
+  const getOrdersAPI = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/orders/`, 
+        {
+          headers: 
+          {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        });
+      setMyOrders(response.data);
+      console.log("📦 Orders fetched:", response.data);
+    } catch (error) {
+      console.error("❌ Error fetching orders:", error.response?.data || error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      getOrdersAPI();
+    }
+  }, [isLogin]);
+
+  // ✅ 3. Delete Order
+  const deleteOrderAPI = async (orderId) => {
+    try {
+      await axios.delete(`${API_URL}/orders/${orderId}`, {
+        headers: 
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+      setMyOrders(prev => prev.filter(order => order._id !== orderId));
+      console.log("🗑️ Order deleted:", orderId);
+    } catch (error) {
+      console.error("❌ Error deleting order:", error.response?.data || error.message);
+    }
+  };
+
+  // ✅ 4. Update Order Status
+  const updateOrderStatusAPI = async (orderId) => {
+    try {
+      const response = await axios.put(`${API_URL}/orders/${orderId}`, {}, 
+        {
+        headers: 
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+      // Replace updated order in state
+      setMyOrders(prev =>
+        prev.map(order =>
+          order._id === orderId ? response.data : order
+        )
+      );
+      console.log("🔁 Order status updated:", response.data);
+    } catch (error) {
+      console.error("❌ Error updating status:", error.response?.data || error.message);
+    }
+  };
+
+
   return (
     <BooksContext.Provider
       value={{
@@ -281,8 +463,14 @@ const BooksContextProvider = ({ children }) => {
         updateCart,
         removeFromCart,
         totalQuantity,
-        user,
-        email,
+        userDetails,
+        fetchUserDetails,
+        updateUserDetails,
+        setAddOrders,
+        clearCart,
+        placeOrderAPI,
+        updateOrderStatusAPI,
+        getOrdersAPI,
         // quantities
       }}
     >

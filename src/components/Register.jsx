@@ -190,7 +190,7 @@ function Register() {
               <h6 className="text-danger">Password Mismatch!</h6>
             : ''
           }
-          <button className="btn btn-success fw-bolder" onClick={HandleRegister}>Register</button>
+          <button className="btn btn-success fw-bolder w-75" onClick={HandleRegister}>Register</button>
           <div className="text-center">
             <div>Or</div>
             <span>Already have an account? </span>

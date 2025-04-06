@@ -1,3 +1,19 @@
+*{
+    overflow-y: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
 .nav-img{
     width: 2.7rem;
     height: 2.2rem;
@@ -30,13 +46,13 @@ input {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 91dvh;
+    height: 100vh;
 }
 
-button{
+/* button{
     width: 15rem;
     height: 2.5rem;
-}
+} */
 
 .search-bar{
     width: 50rem;
@@ -114,15 +130,15 @@ button{
 }
 
 .alert{
-    width: 50%;
-    height: 40%;
+    width: 20rem;
+    height: 45%;
     background-color: aliceblue;
 }
 
 .card:hover{
     background-color: #77cc79;
     color: white;
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 
 .card-body{
@@ -180,6 +196,10 @@ button{
         width: 2rem;
         height: 1.8rem;
     }
+
+    .card{
+        left: 1rem;
+    }
     
     .search-bar{
         width: 20rem;
@@ -212,6 +232,11 @@ button{
         height: 2rem;
         width: 8rem;
     }
+
+    /* button{
+        width: 10rem;
+        height: 2.3rem;
+    } */
 
     .page-link {
         width: 40px;

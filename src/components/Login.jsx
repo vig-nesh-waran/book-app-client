@@ -119,7 +119,7 @@ const handleLogin = async () => {
             </span>
           </div>
 
-          <button className="btn btn-success fw-bolder" onClick={handleLogin}>Login</button>
+          <button className="btn btn-success fw-bolder w-75" onClick={handleLogin}>Login</button>
           <div className="d-flex mt-5 justify-content-center">
             <span>Don&apos;t have an account?</span>
             <Link to="/register">Register</Link>

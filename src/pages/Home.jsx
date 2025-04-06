@@ -41,7 +41,7 @@ function Home() {
           "Dive into a world of books where stories come to life. Discover,
           shop, and enjoy the joy of reading—all in one place!"
         </p>
-        <button onClick={handleNavigate} className="btn btn-success mt-3 mb-5 fw-bolder">View Books</button>
+        <button onClick={handleNavigate} className="btn btn-success mt-3 mb-5 fw-bolder w-25">View Books</button>
       </div>
       
         <div className="mt-5 d-flex justify-content-between align-items-center bg-success search-bar rounded-pill" >

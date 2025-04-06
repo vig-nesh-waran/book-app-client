@@ -27,14 +27,16 @@ function SearchBooksList() {
 
   return (
     <div className='booklist'>
-      <div className="d-flex flex-row-reverse p-2">
-        <div className="d-flex justify-content-center align-items-center bg-success nav-search-bar rounded-pill" >
-            <input type="text" placeholder="Find Your Best One..." className="px-3 rounded-pill" value={searchItem} onChange={handleValue} onKeyDown={handleKeyDown} />
-            <img src={SearchIcon} alt="search-icon" className="search-icon rounded-circle" onClick={handleSearch} />
-          </div>
-      </div>
-      <div className='container '>
-          <BooksCard books={searchBooks}/>
+      <div className="container my-2">
+        <div className="d-flex flex-row-reverse p-2">
+          <div className="d-flex justify-content-center align-items-center bg-success nav-search-bar rounded-pill" >
+              <input type="text" placeholder="Find Your Best One..." className="px-3 rounded-pill" value={searchItem} onChange={handleValue} onKeyDown={handleKeyDown} />
+              <img src={SearchIcon} alt="search-icon" className="search-icon rounded-circle" onClick={handleSearch} />
+            </div>
+        </div>
+        <div>
+            <BooksCard books={searchBooks}/>
+        </div>
       </div>
     </div>
   )
