@@ -1,6 +1,5 @@
 import { useState, useEffect, use } from "react";
 import { BooksContext } from "./BooksContext";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const BooksContextProvider = ({ children }) => {
@@ -26,7 +25,6 @@ const BooksContextProvider = ({ children }) => {
     return storedDetails ? JSON.parse(storedDetails) : {};
   });
 
-  const navigate = useNavigate();
 
   console.log("Orders in Context:", addOrders);
 
@@ -185,7 +183,6 @@ const BooksContextProvider = ({ children }) => {
       localStorage.removeItem("user");
       localStorage.removeItem("email");
       setIsLogin(false);
-      navigate("/login");
     }, expiryTime);
   }
 
