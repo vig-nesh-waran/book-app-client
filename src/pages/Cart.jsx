@@ -33,8 +33,12 @@ function Cart() {
   const handlePayment = () => {
     setIsProcessing(true);
     setTimeout(() => {
+      const successSound = new Audio("/sounds/success.mp3");
+      successSound.play();
       setIsProcessing(false);
       setPaymentSuccess(true);
+
+
       const orderDetails = {
         items: cart,
         totalAmount: calculatedAmount,
