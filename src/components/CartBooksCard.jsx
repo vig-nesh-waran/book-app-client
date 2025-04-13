@@ -19,7 +19,7 @@ function CartBooksCard() {
   };
 
   return (
-    <div className="container">
+    <div>
       {cart.map((book) => {
         return (
           <div key={book.bookId} className="card mb-3 p-3 position-relative">

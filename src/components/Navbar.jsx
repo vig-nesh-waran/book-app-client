@@ -28,7 +28,7 @@ function Navbar() {
                             <Link className="nav-link position-relative"  to="/cart">
                                 <img src={Cart} alt="cart" className='nav-img' />
                                 { badge > 0 || cart.length > 0 ?
-                                <span className="position-absolute top-1 start-75 translate-middle badge rounded-pill bg-danger">
+                                <span className="position-absolute badge translate-middle badge rounded-pill bg-danger">
                                         {badge > 0 ? badge : cart.length}
                                     <span className="visually-hidden">unread messages</span>
                                 </span>

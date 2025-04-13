@@ -52,7 +52,7 @@ function BooksCard({books}) {
           const isInCart = cartBookIds.has(bookId);
             return (
               <div key={book.id} className="col-md-3  mb-5 mt-5">
-                <div className="card p-3 d-flex justify-content-evenly align-items-center" style={{ height: "32rem" }}>
+                <div className="card card-center p-3 d-flex justify-content-evenly align-items-center" style={{ height: "32rem" }}>
                   <img
                     src={book.volumeInfo?.imageLinks?.thumbnail || BookCover}
                     className="card-img-top rounded book-img"

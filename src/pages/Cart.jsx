@@ -18,10 +18,14 @@ function Cart() {
 
   // Checkout button click
   const handleCheckout = () => {
-    if (!userDetails.Phone) {
-      setShowAddressPopup(true);
+    if (userDetails && typeof userDetails === 'object') {
+      if (!userDetails.Phone) {
+        setShowAddressPopup(true);
+      } else {
+        setShowPaymentPopup(true);
+      }
     } else {
-      setShowPaymentPopup(true);
+      setShowAddressPopup(true);
     }
   };
 
@@ -61,7 +65,7 @@ function Cart() {
       <h4 className="mb-4 fw-bold text-success">Your Cart</h4>
       <div className="row d-flex flex-md-row-reverse">
         {/* Amount View - 40% */}
-        <div className="col-md-5">
+        <div className="col-md-5 col-sm-12 mb-4">
           <div className="amount-view text-success p-3 border rounded">
             <h3 className="text-center mb-3">Total Amount</h3>
             <table className="table text-success">
@@ -100,10 +104,8 @@ function Cart() {
         </div>
 
         {/* Card View - 60% */}
-        <div className="col-md-7">
-          <div className="card-view">
+        <div className="col-md-7 col-sm-8">
             {cart.length > 0 ? <CartBooksCard /> : <p className="text-center text-info">No Books in Cart :|</p>}
-          </div>
         </div>
       </div>
 

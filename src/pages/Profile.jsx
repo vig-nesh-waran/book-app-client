@@ -2,27 +2,28 @@ import React, { useContext, useState, useEffect } from 'react';
 import { BooksContext } from '../context/BooksContext';
 import { FaUserCircle, FaSadTear } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom"; 
+import OrdersSection from '../components/OrdersSection';
 
 function Profile() {
   const { logout, userDetails, updateUserDetails } = useContext(BooksContext);
   const [showPopup, setShowPopup] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-      Phone: 'Empty',
-      Address: 'Empty',
-      City: 'Empty',
-      State: 'Empty',
-      PinCode: 'Empty'
+      Phone: '',
+      Address: '',
+      City: '',
+      State: '',
+      PinCode: ''
   });
   
   useEffect(() => {
     if (userDetails && typeof userDetails === 'object') {
       setFormData({
-        Phone: userDetails.Phone || 'Empty',
-        Address: userDetails.Address || 'Empty',
-        City: userDetails.City || 'Empty',
-        State: userDetails.State || 'Empty',
-        PinCode: userDetails.PinCode || 'Empty'
+        Phone: userDetails.Phone || '',
+        Address: userDetails.Address || '',
+        City: userDetails.City || '',
+        State: userDetails.State || '',
+        PinCode: userDetails.PinCode || ''
       });
     }
   }, [userDetails]);
@@ -52,8 +53,7 @@ function Profile() {
       <div className="row d-flex justify-content-center align-items-center flex-column-reverse flex-lg-row">
         {/* Left Section: Orders */}
         <div className="col-lg-7 mb-4 mt-2">
-          <h4 className="mb-3">Your Orders</h4>
-          <p className="text-danger">"Orders Component Currently Under Maintenance"</p>
+          <OrdersSection />
         </div>
 
         {/* Right Section: Profile Details */}

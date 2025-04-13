@@ -379,7 +379,7 @@ const BooksContextProvider = ({ children }) => {
      // 2. Get Orders
   const getOrdersAPI = async () => {
     try {
-      const response = await axios.get(`${API_URL}/orders/`, 
+      const response = await axios.get(`${API_BASE_URL}/orders/`, 
         {
           headers: 
           {
@@ -399,26 +399,26 @@ const BooksContextProvider = ({ children }) => {
     }
   }, [isLogin]);
 
-  // 3. Delete Order
-  const deleteOrderAPI = async (orderId) => {
-    try {
-      await axios.delete(`${API_URL}/orders/${orderId}`, {
-        headers: 
-        {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
-      });
-      setMyOrders(prev => prev.filter(order => order._id !== orderId));
-      console.log("🗑️ Order deleted:", orderId);
-    } catch (error) {
-      console.error("❌ Error deleting order:", error.response?.data || error.message);
-    }
-  };
+  // // 3. Delete Order
+  // const deleteOrderAPI = async (orderId) => {
+  //   try {
+  //     await axios.delete(`${API_BASE_URL}/orders/${orderId}`, {
+  //       headers: 
+  //       {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       }
+  //     });
+  //     setMyOrders(prev => prev.filter(order => order._id !== orderId));
+  //     console.log("🗑️ Order deleted:", orderId);
+  //   } catch (error) {
+  //     console.error("❌ Error deleting order:", error.response?.data || error.message);
+  //   }
+  // };
 
   // 4. Update Order Status
   const updateOrderStatusAPI = async (orderId) => {
     try {
-      const response = await axios.put(`${API_URL}/orders/${orderId}`, {}, 
+      const response = await axios.put(`${API_BASE_URL}/orders/${orderId}`, {}, 
         {
         headers: 
         {
@@ -477,6 +477,8 @@ const BooksContextProvider = ({ children }) => {
         placeOrderAPI,
         updateOrderStatusAPI,
         getOrdersAPI,
+        myOrders,
+        setMyOrders,
         // quantities
       }}
     >

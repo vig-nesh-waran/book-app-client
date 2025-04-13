@@ -190,6 +190,11 @@ input {
     width: 2rem;
   }
 
+  .badge {
+    top: 1rem;
+    left: 80%;
+  }
+
 
 @media only screen and (max-width:600px){
     .nav-img{
@@ -197,7 +202,7 @@ input {
         height: 1.8rem;
     }
 
-    .card{
+    .card-center{
         left: 1rem;
     }
     
@@ -209,7 +214,7 @@ input {
 
     .nav-search-bar{
         width: 25rem;
-        height: 2rem;
+        height: 2.5rem;
     
     }
     
