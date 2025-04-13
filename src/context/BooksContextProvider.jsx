@@ -397,7 +397,7 @@ const BooksContextProvider = ({ children }) => {
     if (isLogin) {
       getOrdersAPI();
     }
-  }, [isLogin]);
+  }, [isLogin, addOrders]);
 
   // // 3. Delete Order
   // const deleteOrderAPI = async (orderId) => {
