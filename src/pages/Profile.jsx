@@ -8,20 +8,20 @@ function Profile() {
   const [showPopup, setShowPopup] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    Phone: '',
-      Address: '',
-      City: '',
-      State: '',
-      PinCode: ''
+      Phone: 'Empty',
+      Address: 'Empty',
+      City: 'Empty',
+      State: 'Empty',
+      PinCode: 'Empty'
   });
   
   useEffect(() => {
     setFormData({
-      Phone: userDetails.Phone || '',
-      Address: userDetails.Address || '',
-      City: userDetails.City || '',
-      State: userDetails.State || '',
-      PinCode: userDetails.PinCode || ''
+      Phone: userDetails.Phone || 'Empty',
+      Address: userDetails.Address || 'Empty',
+      City: userDetails.City || 'Empty',
+      State: userDetails.State || 'Empty',
+      PinCode: userDetails.PinCode || 'Empty'
     });
   }, [userDetails]);
 

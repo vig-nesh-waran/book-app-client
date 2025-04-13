@@ -367,7 +367,7 @@ const BooksContextProvider = ({ children }) => {
       }
     };
 
-     // ✅ 2. Get Orders
+     // 2. Get Orders
   const getOrdersAPI = async () => {
     try {
       const response = await axios.get(`${API_URL}/orders/`, 
@@ -390,7 +390,7 @@ const BooksContextProvider = ({ children }) => {
     }
   }, [isLogin]);
 
-  // ✅ 3. Delete Order
+  // 3. Delete Order
   const deleteOrderAPI = async (orderId) => {
     try {
       await axios.delete(`${API_URL}/orders/${orderId}`, {
@@ -406,7 +406,7 @@ const BooksContextProvider = ({ children }) => {
     }
   };
 
-  // ✅ 4. Update Order Status
+  // 4. Update Order Status
   const updateOrderStatusAPI = async (orderId) => {
     try {
       const response = await axios.put(`${API_URL}/orders/${orderId}`, {}, 
