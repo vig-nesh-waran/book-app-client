@@ -5,7 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 function SkeletonLoader() {
   return (
     <div
-      className="card p-3 d-flex justify-content-evenly align-items-center"
+      className="card card-center p-3 d-flex justify-content-evenly align-items-center"
       style={{ height: "34rem" }}
     >
       <Skeleton height={200} width={180} /> {/* Image Placeholder */}
