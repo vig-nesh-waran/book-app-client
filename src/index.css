@@ -49,10 +49,10 @@ input {
     height: 100vh;
 }
 
-/* button{
+.viewBookBtn{
     width: 15rem;
     height: 2.5rem;
-} */
+}
 
 .search-bar{
     width: 50rem;
@@ -233,10 +233,10 @@ input {
         width: 8rem;
     }
 
-    /* button{
+    .viewBookBtn{
         width: 10rem;
         height: 2.3rem;
-    } */
+    }
 
     .page-link {
         width: 40px;
