@@ -20,9 +20,18 @@ const BooksContextProvider = ({ children }) => {
   const [addOrders, setAddOrders] = useState([]);
   const [myOrders, setMyOrders] = useState([]);
   
+
+  const defaultUserDetails = {
+    Phone: '',
+    Address: '',
+    City: '',
+    State: '',
+    PinCode: ''
+  };
+
   const [userDetails, setUserDetails] = useState(() => {
     const storedDetails = localStorage.getItem("userDetails");
-    return storedDetails ? JSON.parse(storedDetails) : {};
+    return storedDetails ? JSON.parse(storedDetails) : defaultUserDetails;
   });
 
 

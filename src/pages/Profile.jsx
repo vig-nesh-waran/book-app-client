@@ -16,13 +16,15 @@ function Profile() {
   });
   
   useEffect(() => {
-    setFormData({
-      Phone: userDetails.Phone || 'Empty',
-      Address: userDetails.Address || 'Empty',
-      City: userDetails.City || 'Empty',
-      State: userDetails.State || 'Empty',
-      PinCode: userDetails.PinCode || 'Empty'
-    });
+    if (userDetails && typeof userDetails === 'object') {
+      setFormData({
+        Phone: userDetails.Phone || 'Empty',
+        Address: userDetails.Address || 'Empty',
+        City: userDetails.City || 'Empty',
+        State: userDetails.State || 'Empty',
+        PinCode: userDetails.PinCode || 'Empty'
+      });
+    }
   }, [userDetails]);
 
   const Navigate = useNavigate();
