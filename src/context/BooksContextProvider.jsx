@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, } from "react";
 import { BooksContext } from "./BooksContext";
 import axios from "axios";
 
@@ -19,7 +19,6 @@ const BooksContextProvider = ({ children }) => {
   const [badge, setBadge] = useState(0);
   const [addOrders, setAddOrders] = useState([]);
   const [myOrders, setMyOrders] = useState([]);
-  
 
   const defaultUserDetails = {
     Phone: '',
@@ -35,7 +34,19 @@ const BooksContextProvider = ({ children }) => {
   });
 
 
-  console.log("Orders in Context:", addOrders);
+  useEffect(() => {
+    // Listen to manual localStorage clear
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+      if (!token || !user) {
+        window.location.replace("/");
+      }
+    };
+  
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   // Function to Fetch User Details
   const fetchUserDetails = async () => {
@@ -54,7 +65,7 @@ const BooksContextProvider = ({ children }) => {
 
       
     } catch (error) {
-      console.error("Error fetching user details:", error);
+      toast.warn("Error fetching user details:", error);
     }
   };
 
@@ -77,7 +88,7 @@ const BooksContextProvider = ({ children }) => {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
       fetchUserDetails(); 
     } catch (error) {
-      console.error("Error updating user details:", error);
+      toast.warn("Error updating user details:", error);
     }
   };
 
@@ -102,7 +113,7 @@ const BooksContextProvider = ({ children }) => {
           `https://www.googleapis.com/books/v1/volumes?q=*&maxResults=40&startIndex=${pageNum}`
         )
         .then((response) => setBooks(response.data))
-        .catch((error) => console.error("Error fetching books:", error));
+        .catch((error) => toast.warn("Error fetching books:", error));
     } catch (err) {
       setError("Failed to fetch books", err);
     }
@@ -123,7 +134,7 @@ const BooksContextProvider = ({ children }) => {
           `https://www.googleapis.com/books/v1/volumes?q=intitle:${searchItems}`
         )
         .then((response) => setSearchBooks(response.data))
-        .catch((error) => console.error("Error fetching books:", error));
+        .catch((error) => toast.warn("Error fetching books:", error));
     } catch (err) {
       setError("Failed to fetch books", err);
     }
@@ -150,7 +161,7 @@ const BooksContextProvider = ({ children }) => {
           setQuantities(initialQuantities);
           setTotalAmount(response.data?.totalAmount || 0);
         })
-        .catch((error) => console.error("Error fetching cart:", error));
+        .catch((error) => toast.warn("Error fetching cart:", error));
     }
   }
 
@@ -179,21 +190,28 @@ const BooksContextProvider = ({ children }) => {
       fetchUserDetails();
       setTokenExpiry();
     } catch (error) {
-      console.error("Login failed:", error);
+      toast.warn("Login failed:", error);
       throw error;
     }
   };
 
   const setTokenExpiry = () => {
-    const expiryTime = 1 * 30 * 60 * 1000; 
+    const expiryTime = 1 * 60 * 60 * 1000; // 1 hour
+
     setTimeout(() => {
+      // Clear storage
       localStorage.removeItem("token");
       localStorage.removeItem("userDetails");
       localStorage.removeItem("user");
       localStorage.removeItem("email");
+
+      // Update state
       setIsLogin(false);
+
+      // Redirect to '/' and prevent back navigation
+      window.location.replace("/");
     }, expiryTime);
-  }
+  };
 
   // Register API
   const register = async (userData) => {
@@ -203,10 +221,9 @@ const BooksContextProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
-      alert("Registration successful! Please login.");
+      toast.success("Registration successful! Please login.");
     } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Registration failed. Try again.");
+      toast.warn("Registration failed. Try again.");
     }
   };
 
@@ -233,7 +250,7 @@ const BooksContextProvider = ({ children }) => {
     };
 
     if (!isLogin) {
-      alert("Oops! Please Login first!. and Then Add Your Perfect One :)");
+      toast.info("Oops! Please Login first!. and Then Add Your Perfect One :)");
       return;
     }
 
@@ -260,7 +277,7 @@ const BooksContextProvider = ({ children }) => {
       });
       fetchCart()
     } catch (error) {
-      console.error("Error adding book to cart:", error);
+      toast.warn("Error adding book to cart:", error);
     }
   };
 
@@ -297,7 +314,7 @@ const BooksContextProvider = ({ children }) => {
       fetchCart()
 
     } catch (error) {
-      console.error("Error updating cart:", error);
+      toast.warn("Error updating cart:", error);
     }
   };
 
@@ -326,7 +343,7 @@ const BooksContextProvider = ({ children }) => {
       fetchCart()
 
     } catch (error) {
-      console.error("Error removing book from cart:", error);
+      toast.warn("Error removing book from cart:", error);
     }
   };
 
@@ -345,7 +362,7 @@ const BooksContextProvider = ({ children }) => {
         fetchCart()
   
       } catch (error) {
-        console.error("Error removing book from cart:", error);
+        toast.warn("Error removing book from cart:", error);
       }
     };
 
@@ -372,11 +389,11 @@ const BooksContextProvider = ({ children }) => {
         );
         setAddOrders(response.data.order);
       } catch (error) {
-        console.error("❌ Error placing order:", error.response?.data || error.message);
+        toast.warn("❌ Error placing order:", error.response?.data || error.message);
       }
     };
 
-     // 2. Get Orders
+  // 2. Get Orders
   const getOrdersAPI = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/orders/`, 
@@ -387,9 +404,8 @@ const BooksContextProvider = ({ children }) => {
           }
         });
       setMyOrders(response.data);
-      console.log("📦 Orders fetched:", response.data);
     } catch (error) {
-      console.error("❌ Error fetching orders:", error.response?.data || error.message);
+      toast.warn("❌ Error fetching orders:", error.response?.data || error.message);
     }
   };
 
@@ -409,9 +425,8 @@ const BooksContextProvider = ({ children }) => {
   //       }
   //     });
   //     setMyOrders(prev => prev.filter(order => order._id !== orderId));
-  //     console.log("🗑️ Order deleted:", orderId);
   //   } catch (error) {
-  //     console.error("❌ Error deleting order:", error.response?.data || error.message);
+  //     toast.warn("❌ Error deleting order:", error.response?.data || error.message);
   //   }
   // };
 
@@ -431,9 +446,8 @@ const BooksContextProvider = ({ children }) => {
           order._id === orderId ? response.data : order
         )
       );
-      console.log("🔁 Order status updated:", response.data);
     } catch (error) {
-      console.error("❌ Error updating status:", error.response?.data || error.message);
+      toast.warn("❌ Error updating status:", error.response?.data || error.message);
     }
   };
 

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"; // Correct import for Reac
 import { useState, useRef, useEffect, useContext } from "react";
 import { BooksContext } from "../context/BooksContext";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { toast } from 'react-toastify'
 
 function Login() {
   const { login } = useContext(BooksContext);
@@ -57,7 +58,7 @@ function Login() {
 // Handle login validation and API call
 const handleLogin = async () => {
   if (!email || !password) {
-    alert("All fields are required!");
+    toast.warn("All fields are required!");
     return;
   }
 
@@ -70,17 +71,17 @@ const handleLogin = async () => {
     await login(userData); // Pass userData to login function
     setEmail("");
     setPassword("");
+    toast.success("Login successful!");
     Navigate('/');
   } catch (error) {
-    console.error("Login error:", error);
-    alert("Login failed. Please check your credentials.");
+    toast.warn("Login failed. Please check your credentials.");
   }
 };
 
 
   return (
-    <div className="home">
-      <div className="container d-flex justify-content-center align-items-center flex-column">
+    <div className="home mt-5">
+      <div className="container d-flex mt-5 justify-content-center align-items-center flex-column">
         <div className="bg-light login d-flex flex-column justify-content-center align-items-center mt-5 shadow p-3 rounded gap-4">
           <h1 className="fw-bold text-success">Login</h1>
 

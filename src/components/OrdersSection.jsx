@@ -48,9 +48,9 @@ useEffect(() => {
 
 
   return (
-    <div className="row mt-2">
+    <div className="row mt-5">
       <div className="col-12">
-        <h4 className="mb-3">Your Orders</h4>
+        <h4 className="mb-3 text-success">Your Orders</h4>
       </div>
 
       {myOrders.length === 0 ? (
@@ -82,9 +82,11 @@ useEffect(() => {
                   <p className="card-text mb-2">
                     <strong>Order Date:</strong> {date}
                   </p>
-                  <span className={`badge ${statusColors[order.status]} px-3 py-1`}>
-                    {order.status}
-                  </span>
+                  <div className='d-flex justify-content-end align-items-center'>
+                    <span className={`badge ${statusColors[order.status]} px-3 py-2`}>
+                      {order.status}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-    import{Link} from 'react-router'
+import{Link} from 'react-router'
 import Cart from '../assets/img/cart.png'
 import Profile from'../assets/img/profile.png'
 import React, { useContext } from "react";
@@ -11,7 +11,7 @@ function Navbar() {
     const { isLogin, badge, cart } = useContext(BooksContext);
     
   return (
-    <nav className="navbar sticky-top navbar-expand bg-success navbar-dark">
+    <nav className="navbar fixed-top navbar-expand bg-success navbar-dark">
         <div className="container d-flex fustify-content-between align-items-center">
             <Link className="navbar-brand" to="/">
             <img className='name' src={Name} alt="BookStore"/>

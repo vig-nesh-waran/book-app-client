@@ -3,6 +3,7 @@ import { BooksContext } from "../context/BooksContext";
 import CartBooksCard from "../components/CartBooksCard";
 import { useNavigate } from "react-router-dom";
 import { FaGooglePay } from "react-icons/fa";
+import emailjs from 'emailjs-com';
 
 function Cart() {
   const { cart, totalAmount, totalQuantity, userDetails, setAddOrders, clearCart, placeOrderAPI } = useContext(BooksContext);
@@ -44,14 +45,48 @@ function Cart() {
         totalAmount: calculatedAmount,
         orderDate: new Date().toISOString(),
       };
-  
+      
+
       //setAddOrders(prevOrders => [...prevOrders, orderDetails]); 
       placeOrderAPI(orderDetails);
+
+      // Send email notification
+      const emailParams = {
+        userName: localStorage.getItem("user") || "Valued Customer",
+        email: localStorage.getItem("email"),
+        orderDate: orderDetails?.orderDate.split("T")[0],
+        orders: orderDetails?.items?.map(book => ({
+          name: book.title,
+          price: book.price.toFixed(2),
+          units: book.quantity,
+          image_url: book.thumbnail, // make sure this field exists
+        })),
+        cost: {
+          subtotal: totalAmount.toFixed(2),
+          gst: gstAmount.toFixed(2),
+          total: calculatedAmount.toFixed(2),
+        },
+      };
+      
+      emailjs
+        .send(
+          "service_rr6fmtp",
+          "template_xta5s68",
+          emailParams,
+          "33q2L2wrgn4OXsdmG" 
+        )
+        .then(() => {
+        })
+        .catch((err) => {
+          console.error("Error sending email:", err);
+        });
+
+
       setTimeout(() => {
         setShowPaymentPopup(false);
         clearCart();
         navigate("/profile");
-      }, 2000);
+      }, 4000);
     }, Math.random() * (4000 - 2000) + 2000);
   };
 
@@ -66,7 +101,7 @@ function Cart() {
 
   return (
     <div className="container mt-5" onClick={handleInteraction}>
-      <h4 className="mb-4 fw-bold text-success">Your Cart</h4>
+      <h4 className="mb-4 mt-5 fw-bold text-success">Your Cart</h4>
       <div className="row d-flex flex-md-row-reverse">
         {/* Amount View - 40% */}
         <div className="col-md-5 col-sm-12 mb-4">

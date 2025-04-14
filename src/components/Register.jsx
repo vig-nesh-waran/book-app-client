@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom"; 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { BooksContext } from "../context/BooksContext";
+import { toast } from "react-toastify";
 
 
 function Register() {
@@ -88,13 +89,36 @@ function Register() {
 
 
   const HandleRegister = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+
     if (!username || !email || !password || !confirmPassword) {
-      alert("All fields are required!");
+      toast.warn("All fields are required!");
+      return;
+    }
+
+    if (username.trim().length < 3) {
+      toast.error("Username must be at least 3 characters long.");
+      return;
+    }
+
+    if (!emailRegex.test(email.trim())) {
+      toast.error("Enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      toast.error("Password must include at least one number and one special character.");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.warn("Passwords do not match!");
       return;
     }
 
@@ -104,23 +128,23 @@ function Register() {
       email: email.trim(),
       password: password.trim(),
     };
-  
+
     try {
       await register(userData);
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      toast.success("Registration successful!");
     } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please check your credentials.");
+      toast.error("Registration failed. Please try again later.");
     }
 
   };
 
   return (
-    <div className="home">
-      <div className="container d-flex flex-column justify-content-center align-items-center">
+    <div className="home mt-5">
+      <div className="container mt-5 d-flex flex-column justify-content-center align-items-center">
       <div className="bg-light register d-flex flex-column justify-content-center align-items-center mt-3 shadow p-3 rounded gap-3">
         
          <h1 className="fw-bold text-success">Register</h1>

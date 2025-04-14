@@ -30,8 +30,8 @@ function BooksList() {
   }
 
   return (
-    <div className='booklist'>
-      <div className="container my-2">
+    <div className='booklist mt-5'>
+      <div className="container mt-5 my-2">
         <div className="d-flex flex-row-reverse p-2">
           <div className="d-flex justify-content-center align-items-center bg-success nav-search-bar rounded-pill" >
               <input type="text" placeholder="Find Your Best One..." className="px-3 rounded-pill" onChange={handleValue} onKeyDown={handleKeyDown}/>

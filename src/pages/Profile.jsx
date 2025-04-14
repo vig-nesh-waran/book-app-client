@@ -49,7 +49,7 @@ function Profile() {
   };
 
   return (
-    <div className="container my-2">
+    <div className="container mt-5 my-2">
       <div className="row d-flex justify-content-center align-items-center flex-column-reverse flex-lg-row">
         {/* Left Section: Orders */}
         <div className="col-lg-7 mb-4 mt-2">
